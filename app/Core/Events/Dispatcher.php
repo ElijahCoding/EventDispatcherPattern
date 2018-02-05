@@ -2,6 +2,7 @@
 
 namespace App\Core\Events;
 
+use App\Core\Events\Event;
 use App\Core\Events\Listener;
 
 class Dispatcher
@@ -32,4 +33,10 @@ class Dispatcher
     $this->listeners[$name][] = $listener;
   }
 
+  public function dispatch(Event $event)
+  {
+    foreach ($this->getListenersByEvent($event->getName()) as $listener) {
+      $listener->handle($event);
+    }
+  }
 }
